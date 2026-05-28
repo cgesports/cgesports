@@ -1000,6 +1000,641 @@
         });
     </script>
 </body>
+</html>nshot-slider::-webkit-scrollbar {
+            display: none;
+        }
+
+        .screenshot-item {
+            min-width: 280px;
+            height: 500px;
+            border-radius: 20px;
+            background-size: cover;
+            background-position: center;
+            border: 5px solid #222;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.5);
+            transition: 0.3s;
+        }
+
+        .screenshot-item:hover {
+            transform: scale(1.05);
+        }
+
+        /* --- Video Preview --- */
+        .video-preview {
+            padding: 100px 10%;
+            text-align: center;
+        }
+
+        .video-box {
+            width: 100%;
+            max-width: 900px;
+            aspect-ratio: 16/9;
+            background: #1a1a2e;
+            margin: 40px auto;
+            border-radius: 30px;
+            border: 1px solid var(--glass-border);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+        }
+
+        .video-play-btn {
+            width: 80px;
+            height: 80px;
+            background: var(--primary-color);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5rem;
+            color: #000;
+            cursor: pointer;
+            z-index: 10;
+            box-shadow: 0 0 30px var(--primary-glow);
+            transition: 0.3s;
+        }
+
+        .video-play-btn:hover {
+            transform: scale(1.15);
+        }
+
+        /* --- Testimonials --- */
+        .testimonials {
+            padding: 100px 10%;
+        }
+
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+        }
+
+        .testi-card {
+            background: var(--glass-bg);
+            padding: 40px;
+            border-radius: 25px;
+            border: 1px solid var(--glass-border);
+        }
+
+        .testi-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .testi-header img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .testi-info h4 {
+            font-size: 1rem;
+            margin-bottom: 3px;
+        }
+
+        .testi-info p {
+            font-size: 12px;
+            color: var(--primary-color);
+            font-weight: 700;
+        }
+
+        .stars {
+            color: #ffaa00;
+            margin-bottom: 15px;
+        }
+
+        .testi-card blockquote {
+            color: var(--text-gray);
+            font-style: italic;
+            font-size: 0.95rem;
+        }
+
+        /* --- FAQ Section --- */
+        .faq {
+            padding: 100px 10%;
+            background: #08080c;
+        }
+
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            background: var(--glass-bg);
+            margin-bottom: 15px;
+            border-radius: 15px;
+            border: 1px solid var(--glass-border);
+            overflow: hidden;
+        }
+
+        .faq-question {
+            padding: 20px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .faq-question:hover {
+            color: var(--primary-color);
+        }
+
+        .faq-answer {
+            padding: 0 25px;
+            max-height: 0;
+            overflow: hidden;
+            transition: 0.4s ease-out;
+            color: var(--text-gray);
+            font-size: 0.9rem;
+        }
+
+        .faq-item.active .faq-answer {
+            padding: 0 25px 25px;
+            max-height: 200px;
+        }
+
+        .faq-item.active .faq-question i {
+            transform: rotate(180deg);
+            color: var(--primary-color);
+        }
+
+        /* --- Final CTA --- */
+        .cta-section {
+            padding: 120px 10%;
+            text-align: center;
+            background: linear-gradient(to bottom, transparent, rgba(255, 140, 0, 0.1));
+        }
+
+        .cta-card {
+            background: linear-gradient(135deg, var(--secondary-color), #0a0a1a);
+            padding: 80px 40px;
+            border-radius: 40px;
+            border: 1px solid var(--glass-border);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-card h2 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+
+        .cta-card p {
+            color: var(--text-gray);
+            margin-bottom: 40px;
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* --- Footer --- */
+        footer {
+            padding: 80px 10% 40px;
+            background: #040406;
+            border-top: 1px solid var(--glass-border);
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 50px;
+            margin-bottom: 60px;
+        }
+
+        .footer-logo h3 {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 2rem;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+
+        .footer-logo p {
+            color: var(--text-gray);
+            font-size: 14px;
+        }
+
+        .footer-links h4 {
+            margin-bottom: 25px;
+            font-size: 1.1rem;
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+
+        .footer-links a {
+            text-decoration: none;
+            color: var(--text-gray);
+            font-size: 14px;
+            transition: 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary-color);
+            padding-left: 5px;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        .social-icons a {
+            width: 40px;
+            height: 40px;
+            background: var(--glass-bg);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            text-decoration: none;
+            transition: 0.3s;
+            border: 1px solid var(--glass-border);
+        }
+
+        .social-icons a:hover {
+            background: var(--primary-color);
+            color: #000;
+            transform: translateY(-5px);
+        }
+
+        .copyright {
+            text-align: center;
+            color: var(--text-gray);
+            font-size: 13px;
+            padding-top: 30px;
+            border-top: 1px solid var(--glass-border);
+        }
+
+        /* --- Mobile Responsive --- */
+        @media (max-width: 992px) {
+            .hero {
+                flex-direction: column;
+                text-align: center;
+                height: auto;
+                padding-top: 150px;
+                padding-bottom: 80px;
+            }
+            .hero-mockup {
+                margin-top: 80px;
+                justify-content: center;
+            }
+            .hero-content h2 {
+                font-size: 2.8rem;
+            }
+            .hero-btns {
+                justify-content: center;
+            }
+            .nav-links {
+                display: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero-content h2 {
+                font-size: 2.2rem;
+            }
+            .section-header h2 {
+                font-size: 2.2rem;
+            }
+            .stats-container {
+                gap: 30px;
+            }
+            .cta-card h2 {
+                font-size: 2.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="animate__animated animate__fadeInDown">
+        <a href="#" class="logo">
+            <img src="https://www.image2url.com/r2/default/images/1779517281749-c78af1e5-af53-4efc-84ee-e708aaf6c010.jpg" alt="App Logo">
+            <h1> CG ESPORTS  </h1>
+        </a>
+        <ul class="nav-links">
+            <li><a href="#home" class="active">Home</a></li>
+            <li><a href="#features">Features</a></li>
+            <li><a href="#screenshots">Screenshots</a></li>
+            <li><a href="#faq">FAQ</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+        <a href="https://apk.e-droid.net/apk/app4050164-5z14bc.apk?v=2" class="btn-nav-download"> GET APP </a>
+    </nav>
+
+    <section class="hero" id="home">
+        <div class="hero-content animate__animated animate__fadeInLeft">
+            <span class="hero-tag">#1 Esports Platform</span>
+            <h2>Win Real Cash in <span>FREE FIRE  Tournaments</span></h2>
+            <p>Join thousands of players, compete in professional matches, and earn money for every kill you make. Start your journey today!</p>
+            <div class="hero-btns">
+                <a href="https://apk.e-droid.net/apk/app4050164-5z14bc.apk?v=2" class="btn-download-main">
+                    <i class="fa-brands fa-android"></i>
+                    Download Now
+                </a>
+            </div>
+            <div style="margin-top: 25px; color: var(--text-gray); font-size: 14px;">
+                <i class="fa-solid fa-check-circle" style="color: var(--primary-color);"></i> v2.4.0 (Latest Update) | 15MB
+            </div>
+        </div>
+
+        <div class="hero-mockup animate__animated animate__zoomIn">
+            <div class="https://www.image2url.com/r2/default/images/1779517281749-c78af1e5-af53-4efc-84ee-e708aaf6c010.jpg"></div>
+            <div class="">
+                <div class="https://www.image2url.com/r2/default/images/1779517281749-c78af1e5-af53-4efc-84ee-e708aaf6c010.jpg"></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="stats-container animate__animated animate__fadeIn">
+        <div class="stat-card">
+            <h3>10K+</h3>
+            <p>Total Downloads</p>
+        </div>
+        <div class="stat-card">
+            <h3>₹50k+</h3>
+            <p>Prizes Distributed</p>
+        </div>
+        <div class="stat-card">
+            <h3>100+</h3>
+            <p>Daily Matches</p>
+        </div>
+        <div class="stat-card">
+            <h3>4.5/5</h3>
+            <p>User Rating</p>
+        </div>
+    </section>
+
+    <section class="features" id="features">
+        <div class="section-header">
+            <h2>Premium Features</h2>
+            <p style="color: var(--text-gray); margin-top: 10px;">Why players love Booyah Battle platform</p>
+            <div></div>
+        </div>
+
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fa-solid fa-bolt"></i></div>
+                <h3>Instant Withdraw</h3>
+                <p>Transfer your winnings directly to your PhonePe, Paytm, or GPay account instantly without any delay.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fa-solid fa-shield-halved"></i></div>
+                <h3>Anti-Cheat System</h3>
+                <p>Our advanced security measures ensure 100% fair play. Hackers and cheaters are banned permanently.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fa-solid fa-headset"></i></div>
+                <h3>24/7 Support</h3>
+                <p>Facing issues? Our dedicated support team is available 24 hours a day to help you via WhatsApp or Chat.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fa-solid fa-trophy"></i></div>
+                <h3>Daily Giveaways</h3>
+                <p>Participate in our daily free-entry matches and giveaways to win diamonds and real cash prizes.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fa-solid fa-users"></i></div>
+                <h3>Refer & Earn</h3>
+                <p>Invite your friends using your unique referral code and earn ₹10 for every successful registration.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fa-solid fa-wallet"></i></div>
+                <h3>Safe Wallet</h3>
+                <p>Our integrated wallet system is highly secured with encryption, keeping your deposits and winnings safe.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="screenshots" id="screenshots">
+        <div class="section-header">
+            <h2>App views visuals </h2>
+            <div></div>
+        </div>
+        <div class="screenshot-slider">
+               <div class="screenshot-item" style="background-image: url('  https://i.ibb.co/dwdHZGSB/IMG-20260525-081103-584.jpg    ');"></div>
+            <div class="screenshot-item" style="background-image: url('  https://i.ibb.co/vxr9nnLL/IMG-20260525-080109.jpg    ');"></div>
+            <div class="screenshot-item" style="background-image: url('   https://i.ibb.co/bfgZrNT/Screenshot-2026-0525-075225.jpg   ');"></div>
+            <div class="screenshot-item" style="background-image: url('   https://i.ibb.co/vvgs83xY/Screenshot-2026-0525-080427.jpg   ');"></div>
+            <div class="screenshot-item" style="background-image: url('  https://i.ibb.co/8L7MphZx/IMG-20260525-080050.jpg    ');"></div>
+            <div class="screenshot-item" style="background-image: url('    https://i.ibb.co/wF9Fbt3L/Screenshot-2026-0525-075240.jpg  ');"></div>
+            <div class="screenshot-item" style="background-image: url(' https://i.ibb.co/0jwhhrmz/Screenshot-2026-0525-075522.jpg     ');"></div>
+            <div class="screenshot-item" style="background-image: url('  https://i.ibb.co/q3s2kxcM/IMG-20260525-080138.jpg    ');"></div>
+            <div class="screenshot-item" style="background-image: url('   https://i.ibb.co/KxvBwcbZ/IMG-20260525-080125.jpg   ');"></div>
+            <div class="screenshot-item" style="background-image: url('  https://i.ibb.co/j9q016BT/Screenshot-2026-0525-075325.jpg    ');"></div>
+            <div class="screenshot-item" style="background-image: url('  https://i.ibb.co/SDWBN7jt/Screenshot-20260525-075307.jpg    ');"></div>
+            <div class="screenshot-item" style="background-image: url(' https://i.ibb.co/XrcN6RpT/Screenshot-2026-0525-075257.jpg     ');"></div>
+            <div class="screenshot-item" style="background-image: url('   https://i.ibb.co/xqmvZww4/IMG-20260520-101202-415.jpg   ');"></div>
+
+        </div>
+    </section>
+
+    <section class="video-preview">
+        <div class="section-header">
+            <h2>Watch How it Works</h2>
+            <div></div>
+        </div>
+        <div class="video-box">
+            <div class="video-play-btn"><i class="fa-solid fa-play"></i></div>
+            <img src="https://www.image2url.com/r2/default/images/1779517281749-c78af1e5-af53-4efc-84ee-e708aaf6c010.jpg" style="width: 100%; height: 100%; object-fit: cover; opacity: 0.4;" alt="Video Preview">
+        </div>
+    </section>
+
+    <section class="testimonials">
+        <div class="section-header">
+            <h2>What Gamers Say</h2>
+            <div></div>
+        </div>
+
+        <div class="testimonial-grid">
+            <div class="testi-card">
+                <div class="testi-header">
+                    <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="User">
+                    <div class="testi-info">
+                        <h4>Rahul Sharma</h4>
+                        <p>Pro Player</p>
+                    </div>
+                </div>
+                <div class="stars">
+                    <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                </div>
+                <blockquote>"This is the best FF tournament app I've ever used. The withdrawals are truly instant and the matches are very well managed."</blockquote>
+            </div>
+
+            <div class="testi-card">
+                <div class="testi-header">
+                    <img src="https://randomuser.me/api/portraits/men/44.jpg" alt="User">
+                    <div class="testi-info">
+                        <h4>Vikram Reddy</h4>
+                        <p>Streamer</p>
+                    </div>
+                </div>
+                <div class="stars">
+                    <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                </div>
+                <blockquote>"Highly professional app. I love the transparency in prize distribution. I have earned more than ₹10,000 this month alone!"</blockquote>
+            </div>
+
+            <div class="testi-card">
+                <div class="testi-header">
+                    <img src="https://randomuser.me/api/portraits/men/86.jpg" alt="User">
+                    <div class="testi-info">
+                        <h4>Sai Kumar</h4>
+                        <p>Casual Gamer</p>
+                    </div>
+                </div>
+                <div class="stars">
+                    <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half-stroke"></i>
+                </div>
+                <blockquote>"Customer support is very helpful. I had a deposit issue and they solved it within 10 minutes. Very impressed!"</blockquote>
+            </div>
+        </div>
+    </section>
+
+    <section class="faq" id="faq">
+        <div class="section-header">
+            <h2>Frequently Asked Questions</h2>
+            <div></div>
+        </div>
+
+        <div class="faq-container">
+            <div class="faq-item">
+                <div class="faq-question">How to join a tournament? <i class="fa-solid fa-chevron-down"></i></div>
+                <div class="faq-answer">Simply download the app, create an account, select your favorite game category, choose a match that fits your budget, and click 'Join'. Make sure you have enough balance in your wallet.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">What is the minimum withdrawal amount? <i class="fa-solid fa-chevron-down"></i></div>
+                <div class="faq-answer">The minimum withdrawal amount is only ₹50. You can withdraw your winnings directly to your UPI account.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">How are points calculated? <i class="fa-solid fa-chevron-down"></i></div>
+                <div class="faq-answer">Points are usually calculated based on your survival rank and the number of kills you make in the match. Each match has its own specific point system mentioned in the rules.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">What if I face any payment issues? <i class="fa-solid fa-chevron-down"></i></div>
+                <div class="faq-answer">If you face any issues with deposits or withdrawals, please contact our support team immediately through the WhatsApp support button in the app or website.</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-section">
+        <div class="cta-card">
+            <h2>Ready to Start Winning?</h2>
+            <p>Download Booyah Battle today and transform your gaming skills into real cash. Join 100,000+ gamers now!</p>
+            <div class="hero-btns">
+                <a href="https://apk.e-droid.net/apk/app4050164-5z14bc.apk?v=2" class="btn-download-main">
+                    <i class="fa-brands fa-android"></i>
+                    Download Now
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-logo">
+                <h3>BOOYAH BATTLE</h3>
+                <p>India's most trusted esports platform for mobile gamers. Compete, Conquer, and Cash-out.</p>
+                <div class="social-icons">
+                    <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="#"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#"><i class="fa-brands fa-whatsapp"></i></a>
+                    <a href="#"><i class="fa-brands fa-youtube"></i></a>
+                </div>
+            </div>
+
+            <div class="footer-links" id="contact">
+                <h4>Company</h4>
+                <ul>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms & Conditions</a></li>
+                    <li><a href="#">Fair Play Policy</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-links">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="#screenshots">Screenshots</a></li>
+                    <li><a href="#faq">FAQ</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-links">
+                <h4>Contact Us</h4>
+                <p style="color: var(--text-gray); font-size: 14px; margin-bottom: 10px;">
+                    <i class="fa-solid fa-envelope" style="color: var(--primary-color);"></i> support@gmail.com
+                </p>
+                <p style="color: var(--text-gray); font-size: 14px;">
+                    <i class="fa-solid fa-location-dot" style="color: var(--primary-color);"></i> made in India
+                </p>
+            </div>
+        </div>
+
+        <div class="copyright">
+            &copy; 2026 CG ESPORTS  Platform. All Rights Reserved. | Developed with <i class="fa-solid fa-heart" style="color: red;"></i> for Gamers.
+        </div>
+    </footer>
+
+    <script>
+        document.querySelectorAll('.faq-question').forEach(item => {
+            item.addEventListener('click', event => {
+                const parent = item.parentElement;
+                parent.classList.toggle('active');
+            })
+        });
+
+        // Smooth Scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Sticky Navbar background change on scroll
+        window.addEventListener('scroll', function() {
+            const nav = document.querySelector('nav');
+            if (window.scrollY > 50) {
+                nav.style.padding = '15px 10%';
+                nav.style.background = 'rgba(4, 4, 6, 0.95)';
+            } else {
+                nav.style.padding = '20px 10%';
+                nav.style.background = 'rgba(8, 8, 12, 0.8)';
+            }
+        });
+    </script>
+</body>
 </html>
 
 <!--
