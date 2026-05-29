@@ -1,0 +1,1414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>APEX ARENA - The Ultimate Free Fire Esports App</title>
+    <meta name="description" content="Join India's premium Free Fire tournament platform. Play daily custom rooms, win real cash instantly to UPI/Paytm.">
+    
+    <!-- Google Fonts: Oswald for aggressive gaming look, Inter for readability -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Oswald:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome for Premium Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* ==========================================================================
+           ROOT VARIABLES & THEME SETTINGS
+           ========================================================================== */
+        :root {
+            --bg-deep: #050507;
+            --bg-surface: rgba(20, 20, 28, 0.7);
+            --bg-card: rgba(255, 255, 255, 0.03);
+            
+            --primary: #ff9100;     /* Apex Arena Orange/Gold based on your screenshots */
+            --primary-glow: rgba(255, 145, 0, 0.5);
+            --secondary: #00f3ff;   /* Neon Cyan */
+            --secondary-glow: rgba(0, 243, 255, 0.5);
+            --gold: #ffd700;
+            
+            --text-main: #ffffff;
+            --text-dim: #9ca3af;
+            
+            --border-glass: rgba(255, 255, 255, 0.08);
+            --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        /* ==========================================================================
+           GLOBAL RESETS & BASE TYPOGRAPHY
+           ========================================================================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-deep);
+            color: var(--text-main);
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Oswald', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        a { text-decoration: none; color: inherit; }
+        ul { list-style: none; }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar-track { background: var(--bg-deep); }
+        ::-webkit-scrollbar-thumb { background: #333; border-radius: 5px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--primary); }
+
+        /* Canvas Background */
+        #particle-canvas {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* ==========================================================================
+           UTILITY CLASSES
+           ========================================================================== */
+        .container {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .text-gradient {
+            background: linear-gradient(to right, var(--primary), #ffc107);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 30px var(--primary-glow);
+        }
+
+        .text-cyan { color: var(--secondary); text-shadow: 0 0 15px var(--secondary-glow); }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+            position: relative;
+        }
+
+        .section-header h2 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .section-header p {
+            color: var(--text-dim);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* ==========================================================================
+           BUTTONS (Premium Cyberpunk Style)
+           ========================================================================== */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 16px 36px;
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            border-radius: 4px;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            border: none;
+            z-index: 1;
+            transition: var(--transition);
+        }
+
+        .btn-glow {
+            background: var(--primary);
+            color: #000;
+            box-shadow: 0 0 20px var(--primary-glow), inset 0 0 10px rgba(255,255,255,0.2);
+            clip-path: polygon(15px 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%, 0 15px);
+        }
+
+        .btn-glow::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transition: 0.5s;
+            z-index: -1;
+        }
+
+        .btn-glow:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 0 35px var(--primary-glow), inset 0 0 15px rgba(255,255,255,0.4);
+            color: #000;
+        }
+
+        .btn-glow:hover::before { left: 100%; }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--secondary);
+            border: 2px solid var(--secondary);
+            box-shadow: 0 0 15px rgba(0, 243, 255, 0.2);
+            clip-path: polygon(15px 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%, 0 15px);
+        }
+
+        .btn-outline:hover {
+            background: var(--secondary);
+            color: #000;
+            box-shadow: 0 0 30px var(--secondary-glow);
+            transform: translateY(-5px);
+        }
+
+        /* ==========================================================================
+           HEADER / NAVBAR (Glassmorphism)
+           ========================================================================== */
+        header {
+            position: fixed;
+            top: 0; left: 0; width: 100%;
+            padding: 20px 0;
+            z-index: 1000;
+            transition: all 0.3s ease;
+            border-bottom: 1px solid transparent;
+        }
+
+        header.glass-nav {
+            background: rgba(5, 5, 7, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-glass);
+            padding: 15px 0;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .app-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        /* Uploaded App Logo */
+        .brand-logo {
+            width: 45px; 
+            height: 45px;
+            border-radius: 10px;
+            object-fit: cover;
+            box-shadow: 0 0 15px var(--primary-glow);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .brand-name {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+        }
+
+        .nav-menu ul {
+            display: flex;
+            gap: 35px;
+        }
+
+        .nav-menu ul li a {
+            font-size: 0.95rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            padding: 5px 0;
+            color: var(--text-dim);
+            transition: 0.3s;
+        }
+
+        .nav-menu ul li a:hover, .nav-menu ul li a.active {
+            color: var(--text-main);
+        }
+
+        .nav-menu ul li a::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0;
+            width: 0%; height: 2px;
+            background: var(--secondary);
+            transition: 0.3s ease;
+            box-shadow: 0 0 10px var(--secondary-glow);
+        }
+
+        .nav-menu ul li a:hover::after { width: 100%; }
+
+        .nav-actions .btn {
+            padding: 10px 24px;
+            font-size: 1rem;
+        }
+
+        .mobile-toggle {
+            display: none;
+            color: white;
+            font-size: 1.8rem;
+            cursor: pointer;
+        }
+
+        /* ==========================================================================
+           LIVE TICKER (Top bar style)
+           ========================================================================== */
+        .live-ticker {
+            background: linear-gradient(90deg, rgba(255, 145, 0, 0.1), rgba(0,243,255,0.1));
+            border-bottom: 1px solid var(--border-glass);
+            padding: 8px 0;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            position: relative;
+            z-index: 999;
+            margin-top: 85px; /* offset for fixed header */
+        }
+
+        .ticker-wrap {
+            white-space: nowrap;
+            animation: ticker 25s linear infinite;
+            display: flex;
+            gap: 50px;
+        }
+
+        .ticker-item {
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--text-dim);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .ticker-item i { color: var(--gold); }
+        .ticker-item span { color: var(--text-main); font-weight: 600; }
+
+        @keyframes ticker {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+
+        /* ==========================================================================
+           HERO SECTION
+           ========================================================================== */
+        .hero {
+            min-height: calc(100vh - 85px);
+            display: flex;
+            align-items: center;
+            padding: 60px 0;
+            position: relative;
+        }
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: center;
+        }
+
+        .hero-content {
+            z-index: 2;
+        }
+
+        .badge-pro {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 145, 0, 0.1);
+            border: 1px solid rgba(255, 145, 0, 0.3);
+            padding: 6px 16px;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 25px;
+            backdrop-filter: blur(5px);
+        }
+
+        .badge-pro i { animation: pulse 2s infinite; }
+
+        .hero-title {
+            font-size: 4.8rem;
+            line-height: 1.1;
+            margin-bottom: 25px;
+        }
+
+        .hero-desc {
+            font-size: 1.15rem;
+            color: var(--text-dim);
+            margin-bottom: 40px;
+            max-width: 90%;
+            line-height: 1.8;
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 30px;
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 1px solid var(--border-glass);
+        }
+
+        .h-stat h4 {
+            font-size: 2.2rem;
+            color: var(--text-main);
+            margin-bottom: 5px;
+        }
+
+        .h-stat p {
+            font-size: 0.9rem;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Pure CSS Realistic Mobile Mockup */
+        .hero-visual {
+            display: flex;
+            justify-content: center;
+            position: relative;
+            perspective: 1000px;
+        }
+
+        .css-phone {
+            width: 320px;
+            height: 650px;
+            background: #000;
+            border-radius: 40px;
+            border: 12px solid #1f1f2e;
+            box-shadow: 
+                -20px 20px 50px rgba(0,0,0,0.8),
+                0 0 40px var(--primary-glow),
+                inset 0 0 10px rgba(255,255,255,0.1);
+            position: relative;
+            transform: rotateY(-15deg) rotateX(5deg);
+            transform-style: preserve-3d;
+            animation: float3D 6s ease-in-out infinite;
+            overflow: hidden;
+        }
+
+        .phone-notch {
+            position: absolute;
+            top: 0; left: 50%;
+            transform: translateX(-50%);
+            width: 120px; height: 25px;
+            background: #1f1f2e;
+            border-bottom-left-radius: 15px;
+            border-bottom-right-radius: 15px;
+            z-index: 10;
+        }
+
+        .phone-screen {
+            width: 100%; height: 100%;
+            background: url('https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=600&auto=format&fit=crop') center/cover;
+            position: relative;
+        }
+
+        .screen-overlay {
+            position: absolute;
+            top:0; left:0; width:100%; height:100%;
+            background: linear-gradient(to bottom, rgba(5,5,7,0.7), rgba(5,5,7,0.95));
+            display: flex;
+            flex-direction: column;
+            padding: 40px 20px 20px;
+        }
+
+        /* Internal Phone UI Simulation */
+        .ui-header { display: flex; justify-content: space-between; margin-bottom: 20px; }
+        .ui-avatar { width: 40px; height: 40px; background: var(--primary); border-radius: 50%; border:2px solid #fff; }
+        .ui-wallet { background: rgba(255,255,255,0.1); padding: 5px 15px; border-radius: 20px; display:flex; align-items:center; gap:5px; font-weight:bold; color:var(--gold);}
+        
+        .ui-card {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 15px;
+            padding: 15px;
+            margin-bottom: 15px;
+            backdrop-filter: blur(10px);
+        }
+        .ui-card-title { color: var(--secondary); font-family: 'Oswald'; font-size: 1.2rem; }
+        .ui-card-row { display: flex; justify-content: space-between; font-size: 0.8rem; color: #ccc; margin: 5px 0;}
+        .ui-btn { background: var(--primary); color: #000; width: 100%; padding: 10px; text-align: center; border-radius: 8px; font-weight: bold; margin-top: 5px;}
+
+        /* ==========================================================================
+           BENTO GRID FEATURES SECTION
+           ========================================================================== */
+        .features-section {
+            padding: 100px 0;
+            position: relative;
+            background: radial-gradient(circle at center, rgba(20,20,28,1) 0%, var(--bg-deep) 100%);
+        }
+
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-auto-rows: 250px;
+            gap: 20px;
+        }
+
+        .bento-item {
+            background: var(--bg-card);
+            border: 1px solid var(--border-glass);
+            border-radius: 20px;
+            padding: 30px;
+            position: relative;
+            overflow: hidden;
+            transition: var(--transition);
+            backdrop-filter: blur(10px);
+        }
+
+        .bento-item::before {
+            content: '';
+            position: absolute;
+            top: -50%; left: -50%;
+            width: 200%; height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.05) 0%, transparent 60%);
+            opacity: 0;
+            transition: 0.5s;
+            pointer-events: none;
+        }
+
+        .bento-item:hover {
+            transform: translateY(-10px);
+            border-color: rgba(255, 145, 0, 0.4);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5), inset 0 0 20px rgba(255, 145, 0, 0.05);
+        }
+
+        .bento-item:hover::before { opacity: 1; transform: rotate(45deg); }
+
+        .bento-item.span-2 { grid-column: span 2; }
+        .bento-item.span-row-2 { grid-row: span 2; }
+
+        .feat-icon {
+            width: 60px; height: 60px;
+            background: rgba(0, 243, 255, 0.1);
+            color: var(--secondary);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            box-shadow: 0 0 15px rgba(0, 243, 255, 0.2);
+        }
+
+        .bento-item:nth-child(even) .feat-icon {
+            background: rgba(255, 145, 0, 0.1);
+            color: var(--primary);
+            box-shadow: 0 0 15px rgba(255, 145, 0, 0.2);
+        }
+
+        .bento-item h3 { font-size: 1.5rem; margin-bottom: 15px; }
+        .bento-item p { color: var(--text-dim); font-size: 0.95rem; }
+
+        .bento-graphic {
+            position: absolute;
+            bottom: -20px; right: -20px;
+            width: 150px; height: 150px;
+            background: radial-gradient(circle, var(--primary-glow) 0%, transparent 70%);
+            opacity: 0.3;
+        }
+
+        /* ==========================================================================
+           HOW IT WORKS (Esports Timeline)
+           ========================================================================== */
+        .timeline-section {
+            padding: 100px 0;
+            background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCI+PHBhdGggZD0iTTAgMGg0MHY0MEgweiIgZmlsbD0ibm9uZSIvPjxwYXRoIGQ9Ik0wIDEwaDQwTTEwIDB2NDAiIHN0cm9rZT0icmdiYSgyNTUsMjU1LDI1NSwwLjAzKSIgc3Ryb2tlLXdpZHRoPSIxIi8+PC9zdmc+') repeat;
+        }
+
+        .timeline {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 50%;
+            transform: translateX(-50%);
+            width: 2px; height: 100%;
+            background: linear-gradient(to bottom, transparent, var(--secondary), var(--primary), transparent);
+        }
+
+        .tl-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 60px;
+            position: relative;
+        }
+
+        .tl-item:nth-child(even) { flex-direction: row-reverse; }
+
+        .tl-content {
+            width: 45%;
+            background: var(--bg-surface);
+            padding: 30px;
+            border-radius: 15px;
+            border: 1px solid var(--border-glass);
+            position: relative;
+            backdrop-filter: blur(10px);
+        }
+
+        .tl-content:hover { border-color: var(--secondary); box-shadow: 0 0 20px rgba(0, 243, 255, 0.1); }
+
+        .tl-number {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 50px; height: 50px;
+            background: var(--bg-deep);
+            border: 2px solid var(--secondary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Oswald';
+            font-size: 1.5rem;
+            color: var(--secondary);
+            box-shadow: 0 0 20px rgba(0,243,255,0.4);
+            z-index: 2;
+        }
+
+        .tl-item:nth-child(even) .tl-number {
+            border-color: var(--primary);
+            color: var(--primary);
+            box-shadow: 0 0 20px rgba(255,145,0,0.4);
+        }
+
+        /* ==========================================================================
+           3D SCREENSHOTS GALLERY
+           ========================================================================== */
+        .gallery-section {
+            padding: 100px 0;
+            overflow: hidden;
+            background: #000;
+        }
+
+        .gallery-track {
+            display: flex;
+            gap: 30px;
+            padding: 50px 20px;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            scrollbar-width: none; 
+            perspective: 1000px;
+        }
+        .gallery-track::-webkit-scrollbar { display: none; }
+
+        .ss-card {
+            min-width: 280px;
+            height: 550px;
+            background: #111;
+            border-radius: 20px;
+            scroll-snap-align: center;
+            position: relative;
+            border: 2px solid #333;
+            transition: var(--transition);
+            /* Reflection Effect */
+            -webkit-box-reflect: below 10px linear-gradient(transparent 70%, rgba(255,255,255,0.2));
+            transform: rotateY(15deg) scale(0.9);
+            overflow: hidden;
+        }
+
+        .ss-card:hover {
+            transform: rotateY(0deg) scale(1.05);
+            border-color: var(--secondary);
+            z-index: 10;
+        }
+
+        /* Real Images tag styling */
+        .ss-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 18px;
+        }
+        
+        /* ==========================================================================
+           FAQ SECTION (Interactivity)
+           ========================================================================== */
+        .faq-section {
+            padding: 100px 0;
+            background: var(--bg-deep);
+        }
+
+        .faq-container { max-width: 800px; margin: 0 auto; }
+
+        .faq-item {
+            margin-bottom: 15px;
+            border: 1px solid var(--border-glass);
+            border-radius: 10px;
+            background: rgba(255,255,255,0.02);
+            overflow: hidden;
+        }
+
+        .faq-question {
+            width: 100%;
+            text-align: left;
+            padding: 20px;
+            background: transparent;
+            border: none;
+            color: var(--text-main);
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-family: 'Inter', sans-serif;
+            transition: 0.3s;
+        }
+
+        .faq-question:hover { color: var(--secondary); background: rgba(255,255,255,0.05); }
+
+        .faq-icon {
+            font-size: 1.2rem;
+            transition: transform 0.3s;
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+            padding: 0 20px;
+            color: var(--text-dim);
+            font-size: 0.95rem;
+        }
+
+        .faq-item.active .faq-answer {
+            max-height: 200px;
+            padding: 0 20px 20px;
+        }
+        .faq-item.active .faq-icon { transform: rotate(180deg); color: var(--primary); }
+        .faq-item.active .faq-question { border-bottom: 1px solid var(--border-glass); }
+
+        /* ==========================================================================
+           CTA DOWNLOAD SECTION
+           ========================================================================== */
+        .cta-section {
+            padding: 120px 0;
+            text-align: center;
+            position: relative;
+            background: linear-gradient(rgba(5,5,7,0.8), rgba(5,5,7,0.9)), url('https://images.unsplash.com/photo-1538481199705-c710c4e965fc?q=80&w=1920&auto=format&fit=crop') center/cover fixed;
+            border-top: 1px solid var(--primary);
+            border-bottom: 1px solid var(--primary);
+            box-shadow: inset 0 0 100px rgba(255, 145, 0, 0.2);
+        }
+
+        .cta-box {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        .cta-box h2 { font-size: 4rem; margin-bottom: 20px; }
+        .cta-box p { font-size: 1.2rem; color: #ddd; margin-bottom: 40px; }
+
+        .download-info {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            color: var(--text-dim);
+            font-size: 0.9rem;
+        }
+        
+        .download-info span { display: flex; align-items: center; gap: 5px; }
+        .download-info i { color: #00e676; }
+
+        /* ==========================================================================
+           FOOTER
+           ========================================================================== */
+        footer {
+            background: #020203;
+            padding: 80px 0 20px;
+            border-top: 1px solid var(--border-glass);
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1.5fr;
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+
+        .footer-col h4 {
+            font-size: 1.4rem;
+            color: #fff;
+            margin-bottom: 25px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-col h4::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0;
+            width: 40px; height: 2px;
+            background: var(--primary);
+        }
+
+        .footer-col p { color: var(--text-dim); font-size: 0.95rem; margin-top: 15px; }
+
+        .footer-links li { margin-bottom: 12px; }
+        .footer-links a {
+            color: var(--text-dim);
+            transition: 0.3s;
+            font-size: 0.95rem;
+            display: inline-block;
+        }
+        .footer-links a:hover {
+            color: var(--secondary);
+            transform: translateX(5px);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-links a {
+            width: 40px; height: 40px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            transition: 0.3s;
+            border: 1px solid transparent;
+        }
+
+        .social-links a:hover {
+            background: var(--primary);
+            border-color: var(--primary-glow);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px var(--primary-glow);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            color: var(--text-dim);
+            font-size: 0.85rem;
+        }
+
+        /* ==========================================================================
+           LIVE NOTIFICATION POPUP (Real-time Feel)
+           ========================================================================== */
+        .live-notify {
+            position: fixed;
+            bottom: 30px; left: -350px;
+            background: rgba(20, 20, 28, 0.95);
+            border-left: 4px solid var(--secondary);
+            padding: 15px 20px;
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            z-index: 9999;
+            transition: 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            backdrop-filter: blur(10px);
+        }
+
+        .live-notify.show { left: 30px; }
+
+        .notify-icon {
+            width: 40px; height: 40px;
+            background: rgba(0, 243, 255, 0.1);
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            color: var(--secondary);
+            font-size: 1.2rem;
+        }
+
+        .notify-text h5 { font-size: 1rem; margin-bottom: 2px; text-transform: none; font-family: 'Inter'; }
+        .notify-text p { font-size: 0.8rem; color: var(--text-dim); }
+        .notify-time { font-size: 0.75rem; color: var(--primary); position: absolute; top: 10px; right: 15px;}
+
+        /* ==========================================================================
+           ANIMATIONS & MEDIA QUERIES
+           ========================================================================== */
+        @keyframes float3D {
+            0%, 100% { transform: translateY(0) rotateY(-15deg) rotateX(5deg); }
+            50% { transform: translateY(-20px) rotateY(-10deg) rotateX(8deg); }
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+
+        .reveal { opacity: 0; transform: translateY(40px); transition: 0.8s ease; }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 1024px) {
+            .hero-grid { grid-template-columns: 1fr; text-align: center; }
+            .hero-content { display: flex; flex-direction: column; align-items: center; }
+            .hero-title { font-size: 3.5rem; }
+            .bento-grid { grid-template-columns: repeat(2, 1fr); }
+            .bento-item.span-2 { grid-column: span 1; }
+            .timeline::before { left: 30px; }
+            .tl-item, .tl-item:nth-child(even) { flex-direction: column; align-items: flex-end; }
+            .tl-number { left: 30px; transform: translate(-50%, 0); top: 0; }
+            .tl-content { width: 85%; }
+            .footer-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        @media (max-width: 768px) {
+            .nav-menu { display: none; }
+            .mobile-toggle { display: block; }
+            .nav-actions { display: none; }
+            .hero-title { font-size: 2.8rem; }
+            .bento-grid { grid-template-columns: 1fr; }
+            .footer-grid { grid-template-columns: 1fr; }
+            .live-notify { bottom: 10px; }
+            .live-notify.show { left: 10px; right: 10px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Canvas for Particle Background -->
+    <canvas id="particle-canvas"></canvas>
+
+    <!-- HEADER -->
+    <header id="header">
+        <div class="container nav-container">
+            <div class="app-brand">
+                <!-- Using your provided App Logo -->
+                <img src="https://i.ibb.co/4wpY5bZX/file-00000000fc987207b99d97fe89952819.png" alt="Apex Arena Logo" class="brand-logo">
+                <div class="brand-name">APEX<span class="text-cyan">ARENA</span></div>
+            </div>
+            
+            <nav class="nav-menu">
+                <ul>
+                    <li><a href="#home" class="active">Home</a></li>
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="#how-to-play">How it Works</a></li>
+                    <li><a href="#gallery">Gallery</a></li>
+                    <li><a href="#faq">FAQ</a></li>
+                </ul>
+            </nav>
+
+            <div class="nav-actions">
+                <!-- Using your provided Download Link -->
+                <a href="https://apk.e-droid.net/apk/app4053313-hpzugs.apk?v=1" target="_blank" class="btn btn-glow"><i class="fa-solid fa-download"></i> Get App</a>
+            </div>
+
+            <div class="mobile-toggle" id="mobile-toggle"><i class="fa-solid fa-bars-staggered"></i></div>
+        </div>
+    </header>
+
+    <!-- LIVE TICKER -->
+    <div class="live-ticker">
+        <div class="ticker-wrap">
+            <div class="ticker-item"><i class="fa-solid fa-bolt"></i> Next CS Ranked match starts in <span>15 Mins</span></div>
+            <div class="ticker-item"><i class="fa-solid fa-trophy"></i> Total winnings distributed today: <span>₹1,45,000+</span></div>
+            <div class="ticker-item"><i class="fa-solid fa-user-ninja"></i> 'ProGamer99' just won <span>₹500</span> in Solo Match</div>
+            <div class="ticker-item"><i class="fa-solid fa-gift"></i> Use code <span>NEW50</span> for ₹50 Sign-up Bonus!</div>
+            <div class="ticker-item"><i class="fa-solid fa-bolt"></i> Next CS Ranked match starts in <span>15 Mins</span></div>
+            <div class="ticker-item"><i class="fa-solid fa-trophy"></i> Total winnings distributed today: <span>₹1,45,000+</span></div>
+        </div>
+    </div>
+
+    <!-- HERO SECTION -->
+    <section class="hero" id="home">
+        <div class="container hero-grid">
+            <div class="hero-content reveal">
+                <div class="badge-pro"><i class="fa-solid fa-circle-dot"></i> Trusted by 500K+ Players</div>
+                <h1 class="hero-title">Dominate the map.<br>Earn <span class="text-gradient">Real Cash.</span></h1>
+                <p class="hero-desc">Stop wasting your headshot skills for free. Join premium Free Fire custom rooms daily, secure Booyah, and withdraw your earnings directly to your bank in seconds.</p>
+                
+                <div style="display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; align-items: center;">
+                    <!-- Using your provided Download Link -->
+                    <a href="https://apk.e-droid.net/apk/app4053313-hpzugs.apk?v=1" target="_blank" class="btn btn-glow" style="padding: 18px 40px; font-size: 1.3rem;">
+                        <i class="fa-brands fa-android"></i> Download APK
+                    </a>
+                    <a href="#how-to-play" class="btn btn-outline" style="padding: 16px 30px;">
+                        <i class="fa-solid fa-play"></i> Watch Tutorial
+                    </a>
+                </div>
+
+                <div class="hero-stats">
+                    <div class="h-stat">
+                        <h4 class="text-cyan">50+</h4>
+                        <p>Daily Matches</p>
+                    </div>
+                    <div class="h-stat">
+                        <h4 class="text-gradient">₹5M+</h4>
+                        <p>Total Paid Out</p>
+                    </div>
+                    <div class="h-stat">
+                        <h4>4.9<i class="fa-solid fa-star" style="color:var(--gold); font-size:1rem; margin-left:5px;"></i></h4>
+                        <p>User Rating</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="hero-visual reveal">
+                <!-- 3D CSS Mockup -->
+                <div class="css-phone">
+                    <div class="phone-notch"></div>
+                    <div class="phone-screen">
+                        <div class="screen-overlay">
+                            <div class="ui-header">
+                                <div class="ui-avatar"></div>
+                                <div class="ui-wallet"><i class="fa-solid fa-wallet"></i> ₹850</div>
+                            </div>
+                            <h2 style="font-family:'Oswald'; margin-bottom:15px; color:#fff;">LIVE MATCHES</h2>
+                            
+                            <div class="ui-card">
+                                <div class="ui-card-title">Bermuda Solo Master</div>
+                                <div class="ui-card-row"><span>Entry: ₹20</span> <span>Per Kill: ₹10</span></div>
+                                <div class="ui-card-row"><span>Prize: ₹500</span> <span>Map: Bermuda</span></div>
+                                <div class="ui-btn">JOIN NOW (45/48)</div>
+                            </div>
+
+                            <div class="ui-card">
+                                <div class="ui-card-title" style="color:var(--primary);">Clash Squad 4v4</div>
+                                <div class="ui-card-row"><span>Entry: ₹50</span> <span>Prize: ₹350</span></div>
+                                <div class="ui-btn" style="background:transparent; border:1px solid var(--primary); color:var(--primary);">UPCOMING 2PM</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- BENTO FEATURES SECTION -->
+    <section class="features-section" id="features">
+        <div class="container">
+            <div class="section-header reveal">
+                <h2>Pro-Level <span class="text-cyan">Features</span></h2>
+                <p>Everything you need to build your eSports career and earn passive income.</p>
+            </div>
+
+            <div class="bento-grid">
+                <!-- Feature 1 -->
+                <div class="bento-item span-2 reveal">
+                    <div class="feat-icon"><i class="fa-solid fa-bolt-lightning"></i></div>
+                    <h3>Lightning Fast Withdrawals</h3>
+                    <p>No waiting for days. Request a withdrawal and get your cash transferred to your Paytm, PhonePe, Google Pay, or UPI ID within 60 seconds.</p>
+                    <div class="bento-graphic"></div>
+                </div>
+                
+                <!-- Feature 2 -->
+                <div class="bento-item reveal">
+                    <div class="feat-icon"><i class="fa-solid fa-gamepad"></i></div>
+                    <h3>Daily Tournaments</h3>
+                    <p>Solo, Duo, Squad, Clash Squad. Matches happening every 30 minutes 24/7.</p>
+                </div>
+
+                <!-- Feature 3 -->
+                <div class="bento-item span-row-2 reveal">
+                    <div class="feat-icon"><i class="fa-solid fa-shield-halved"></i></div>
+                    <h3>100% Anti-Cheat System</h3>
+                    <p>We take fair play seriously. Our automated system blocks emulators, scripts, and modded APKs. Only pure skills win here.</p>
+                    <img src="https://cdn-icons-png.flaticon.com/512/2092/2092663.png" alt="shield" style="width:100px; opacity:0.1; position:absolute; bottom:20px; right:20px;">
+                </div>
+
+                <!-- Feature 4 -->
+                <div class="bento-item reveal">
+                    <div class="feat-icon"><i class="fa-solid fa-users-viewfinder"></i></div>
+                    <h3>Refer & Earn Program</h3>
+                    <p>Invite your squad using your code. Earn ₹15 per active referral for lifetime.</p>
+                </div>
+
+                <!-- Feature 5 -->
+                <div class="bento-item reveal">
+                    <div class="feat-icon"><i class="fa-brands fa-whatsapp"></i></div>
+                    <h3>24/7 Priority Support</h3>
+                    <p>Room ID delay or payment issue? Chat with our live support agents instantly.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- HOW IT WORKS TIMELINE -->
+    <section class="timeline-section" id="how-to-play">
+        <div class="container">
+            <div class="section-header reveal">
+                <h2>Path to <span class="text-gradient">Booyah</span></h2>
+                <p>Follow these 4 simple steps to start earning real cash today.</p>
+            </div>
+
+            <div class="timeline">
+                <div class="tl-item reveal">
+                    <div class="tl-number">1</div>
+                    <div class="tl-content">
+                        <h3>Download & Register</h3>
+                        <p>Get our 100% safe APK. Sign up using your mobile number and enter your accurate Free Fire UID in the profile.</p>
+                    </div>
+                </div>
+                
+                <div class="tl-item reveal">
+                    <div class="tl-number">2</div>
+                    <div class="tl-content">
+                        <h3>Add Wallet Balance</h3>
+                        <p>Add a minimum of ₹10 using any UPI app. 100% secure payment gateway powered by Razorpay.</p>
+                    </div>
+                </div>
+
+                <div class="tl-item reveal">
+                    <div class="tl-number">3</div>
+                    <div class="tl-content">
+                        <h3>Join a Custom Match</h3>
+                        <p>Pick a tournament. We will send you a Push Notification with the Custom Room ID & Password 15 minutes before the start time.</p>
+                    </div>
+                </div>
+
+                <div class="tl-item reveal">
+                    <div class="tl-number">4</div>
+                    <div class="tl-content">
+                        <h3>Kill, Win & Withdraw</h3>
+                        <p>Play fair. Earn money for every kill and massive bonus for Booyah. Check wallet and click withdraw immediately!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3D SCREENSHOTS GALLERY -->
+    <section class="gallery-section" id="gallery">
+        <div class="section-header reveal">
+            <h2>Inside the <span class="text-cyan">App</span></h2>
+            <p>Sleek, Ad-free, and Premium User Interface designed for Gamers.</p>
+        </div>
+        
+        <div class="gallery-track reveal">
+            <!-- Screenshot 1 -->
+            <div class="ss-card">
+                <!-- Replace ss1.jpg with your exact image path -->
+                <img src="https://i.ibb.co/Jj5PBbvp/IMG-20260525-234251-926.jpg" alt="Apex Arena Home Page" class="ss-img">
+            </div>
+            
+            <!-- Screenshot 2 -->
+            <div class="ss-card">
+                <!-- Replace ss2.jpg with your exact image path -->
+                <img src="https://i.ibb.co/Y4M904BD/IMG-20260525-234415-855.jpg" alt="Apex Arena Match List" class="ss-img">
+            </div>
+            
+            <!-- Screenshot 3 -->
+            <div class="ss-card">
+                <!-- Replace ss3.jpg with your exact image path -->
+                <img src="https://i.ibb.co/cKwkh51w/IMG-20260525-234436-072.jpg" alt="Apex Arena Leaderboard" class="ss-img">
+            </div>
+            
+            <!-- Screenshot 4 -->
+            <div class="ss-card">
+                <!-- Replace ss4.jpg with your exact image path -->
+                <img src="https://i.ibb.co/zW1sLHpW/IMG-20260525-234443-670.jpg" alt="Apex Arena Profile" class="ss-img">
+            </div>
+        </div>
+        <p style="text-align:center; color:var(--text-dim); font-size:0.9rem; margin-top:20px;">Scroll horizontally to view more <i class="fa-solid fa-arrow-right-long"></i></p>
+    </section>
+
+    <!-- FAQ SECTION -->
+    <section class="faq-section" id="faq">
+        <div class="container">
+            <div class="section-header reveal">
+                <h2>Got <span class="text-gradient">Questions?</span></h2>
+                <p>We've got answers. Check out our most frequently asked questions.</p>
+            </div>
+
+            <div class="faq-container reveal">
+                <div class="faq-item">
+                    <button class="faq-question">Is this app safe to install? <i class="fa-solid fa-chevron-down faq-icon"></i></button>
+                    <div class="faq-answer"><p style="padding-top:15px;">Absolutely! The app is 100% secure, virus-free, and tested by top security platforms. Since real-money gaming apps are restricted on Play Store in some regions, we provide it directly via our official APK.</p></div>
+                </div>
+                
+                <div class="faq-item">
+                    <button class="faq-question">How do I get the Custom Room ID? <i class="fa-solid fa-chevron-down faq-icon"></i></button>
+                    <div class="faq-answer"><p style="padding-top:15px;">Once you join a match, a "Room ID & Pass" button will appear in the app 15 minutes before the match start time. We also send a push notification.</p></div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">What is the minimum withdrawal limit? <i class="fa-solid fa-chevron-down faq-icon"></i></button>
+                    <div class="faq-answer"><p style="padding-top:15px;">The minimum withdrawal amount is just ₹50. There are zero processing fees, and the amount credits instantly to your bank account.</p></div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">Can I use emulators (PC) to play? <i class="fa-solid fa-chevron-down faq-icon"></i></button>
+                    <div class="faq-answer"><p style="padding-top:15px;">No. Emulator players will be kicked automatically from the custom room and their entry fee will not be refunded. This is strictly a mobile-only tournament platform.</p></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- DOWNLOAD CTA -->
+    <section class="cta-section" id="download">
+        <div class="container cta-box reveal">
+            <h2>Ready for the <span class="text-cyan">Drop?</span></h2>
+            <p>Join over 500,000+ players who are already turning their gaming addiction into a solid income stream.</p>
+            <!-- Using your provided Download Link -->
+            <a href="https://apk.e-droid.net/apk/app4053313-hpzugs.apk?v=1" target="_blank" class="btn btn-glow" style="padding: 20px 50px; font-size: 1.5rem;">
+                <i class="fa-brands fa-google-play"></i> Download APK Now
+            </a>
+            
+            <div class="download-info">
+                <span><i class="fa-solid fa-shield-check"></i> 100% Secure</span>
+                <span><i class="fa-solid fa-mobile-screen"></i> Android v6.0+</span>
+                <span><i class="fa-solid fa-file-zipper"></i> Free to Install</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="app-brand" style="margin-bottom: 20px;">
+                        <img src="https://i.ibb.co/4wpY5bZX/file-00000000fc987207b99d97fe89952819.png" alt="Apex Arena Logo" style="width:35px; height:35px; border-radius:8px; object-fit:cover;">
+                        <div class="brand-name" style="font-size:1.5rem;">APEX<span class="text-cyan">ARENA</span></div>
+                    </div>
+                    <p>The premier destination for mobile eSports athletes in India. Play, Compete, and Conquer.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="#"><i class="fa-brands fa-discord"></i></a>
+                        <a href="#"><i class="fa-brands fa-youtube"></i></a>
+                        <a href="#"><i class="fa-brands fa-telegram"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-col">
+                    <h4>Quick Links</h4>
+                    <ul class="footer-links">
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#features">App Features</a></li>
+                        <li><a href="#gallery">Screenshots</a></li>
+                        <li><a href="#faq">FAQ</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-col">
+                    <h4>Legal</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Terms & Conditions</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Cancellation Policy</a></li>
+                        <li><a href="#">Fair Play Rules</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h4>Contact Support</h4>
+                    <ul class="footer-links" style="color: var(--text-dim); font-size: 0.95rem;">
+                        <li style="margin-bottom: 15px;"><i class="fa-solid fa-envelope" style="color:var(--primary); margin-right:10px;"></i> support@apexarena.in</li>
+                        <li style="margin-bottom: 15px;"><i class="fa-brands fa-whatsapp" style="color:#25D366; margin-right:10px;"></i> +91 98765 43210</li>
+                        <li><i class="fa-solid fa-clock" style="color:var(--secondary); margin-right:10px;"></i> 10:00 AM - 10:00 PM</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2026 Apex Arena Gaming Tech Pvt Ltd. All rights reserved.<br>
+                <span style="font-size:0.75rem; color:#666; margin-top:5px; display:block;">Disclaimer: This platform is an independent tournament organizer and is not officially affiliated with, endorsed, or sponsored by Garena. Free Fire is a trademark of Garena.</span></p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- LIVE NOTIFICATION POPUP HTML -->
+    <div class="live-notify" id="liveNotify">
+        <div class="notify-icon"><i class="fa-solid fa-indian-rupee-sign"></i></div>
+        <div class="notify-text">
+            <h5 id="notifyName">Rahul_FF just won</h5>
+            <p id="notifyAmount">₹250 in CS Ranked</p>
+        </div>
+        <div class="notify-time">Just now</div>
+    </div>
+
+    <!-- ==========================================================================
+         JAVASCRIPT LOGIC
+         ========================================================================== -->
+    <script>
+        // 1. Particle Background Logic (Canvas)
+        const canvas = document.getElementById('particle-canvas');
+        const ctx = canvas.getContext('2d');
+        let width, height, particles;
+
+        function initCanvas() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+            particles = [];
+            let particleCount = window.innerWidth < 768 ? 30 : 70;
+
+            for (let i = 0; i < particleCount; i++) {
+                particles.push({
+                    x: Math.random() * width,
+                    y: Math.random() * height,
+                    r: Math.random() * 2 + 1,
+                    dx: (Math.random() - 0.5) * 0.5,
+                    dy: (Math.random() - 0.5) * 0.5
+                });
+            }
+        }
+
+        function drawParticles() {
+            ctx.clearRect(0, 0, width, height);
+            ctx.fillStyle = 'rgba(0, 243, 255, 0.3)';
+            
+            particles.forEach((p, index) => {
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+                ctx.fill();
+
+                p.x += p.dx;
+                p.y += p.dy;
+
+                if (p.x < 0 || p.x > width) p.dx *= -1;
+                if (p.y < 0 || p.y > height) p.dy *= -1;
+
+                for (let j = index + 1; j < particles.length; j++) {
+                    const p2 = particles[j];
+                    const dist = Math.hypot(p.x - p2.x, p.y - p2.y);
+                    if (dist < 120) {
+                        ctx.beginPath();
+                        ctx.strokeStyle = `rgba(0, 243, 255, ${0.15 - dist/800})`;
+                        ctx.lineWidth = 0.5;
+                        ctx.moveTo(p.x, p.y);
+                        ctx.lineTo(p2.x, p2.y);
+                        ctx.stroke();
+                    }
+                }
+            });
+            requestAnimationFrame(drawParticles);
+        }
+
+        window.addEventListener('resize', initCanvas);
+        initCanvas();
+        drawParticles();
+
+        // 2. Glassmorphism Navbar Scroll Effect
+        const header = document.getElementById('header');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) header.classList.add('glass-nav');
+            else header.classList.remove('glass-nav');
+        });
+
+        // 3. Scroll Reveal Animation using Intersection Observer
+        const observerOptions = { threshold: 0.1, rootMargin: "0px 0px -50px 0px" };
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        // 4. FAQ Accordion Logic
+        const faqItems = document.querySelectorAll('.faq-item');
+        faqItems.forEach(item => {
+            const btn = item.querySelector('.faq-question');
+            btn.addEventListener('click', () => {
+                const isActive = item.classList.contains('active');
+                faqItems.forEach(i => i.classList.remove('active'));
+                if (!isActive) item.classList.add('active');
+            });
+        });
+
+        // 5. Mobile Menu Toggle
+        const mobileToggle = document.getElementById('mobile-toggle');
+        const navMenu = document.querySelector('.nav-menu');
+        
+        mobileToggle.addEventListener('click', () => {
+            if(navMenu.style.display === 'block') {
+                navMenu.style.display = 'none';
+                mobileToggle.innerHTML = '<i class="fa-solid fa-bars-staggered"></i>';
+            } else {
+                navMenu.style.display = 'block';
+                navMenu.style.position = 'absolute';
+                navMenu.style.top = '70px';
+                navMenu.style.left = '0';
+                navMenu.style.width = '100%';
+                navMenu.style.background = 'rgba(5,5,7,0.95)';
+                navMenu.style.padding = '20px';
+                navMenu.style.borderBottom = '1px solid var(--primary)';
+                navMenu.querySelector('ul').style.flexDirection = 'column';
+                mobileToggle.innerHTML = '<i class="fa-solid fa-xmark"></i>';
+            }
+        });
+
+        document.querySelectorAll('.nav-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                if(window.innerWidth <= 768) {
+                    navMenu.style.display = 'none';
+                    mobileToggle.innerHTML = '<i class="fa-solid fa-bars-staggered"></i>';
+                }
+            });
+        });
+
+        // 6. Horizontal Scroll with Mouse Wheel for Gallery
+        const gallery = document.querySelector('.gallery-track');
+        gallery.addEventListener('wheel', (e) => {
+            if(window.innerWidth > 768) {
+                e.preventDefault();
+                gallery.scrollLeft += e.deltaY * 2;
+            }
+        });
+
+        // 7. Live Notification Popup Logic
+        const notifyBox = document.getElementById('liveNotify');
+        const notifyName = document.getElementById('notifyName');
+        const notifyAmount = document.getElementById('notifyAmount');
+        
+        const names = ['Raistar_ff', 'NinjaPro', 'KillerBoy', 'HeadshotKing', 'APEXGamer', 'BooyahMaster'];
+        const matches = ['Solo Bermuda', 'Clash Squad', 'Duo Tournament', 'Custom Room'];
+        const amounts = ['₹150', '₹500', '₹50', '₹300', '₹1000'];
+
+        function showNotification() {
+            const randomName = names[Math.floor(Math.random() * names.length)];
+            const randomMatch = matches[Math.floor(Math.random() * matches.length)];
+            const randomAmount = amounts[Math.floor(Math.random() * amounts.length)];
+
+            notifyName.innerText = `${randomName} just won`;
+            notifyAmount.innerText = `${randomAmount} in ${randomMatch}`;
+            
+            notifyBox.classList.add('show');
+            setTimeout(() => notifyBox.classList.remove('show'), 4000);
+        }
+
+        setTimeout(() => {
+            showNotification();
+            setInterval(showNotification, 15000);
+        }, 3000);
+
+    </script>
+</body>
+</html>
